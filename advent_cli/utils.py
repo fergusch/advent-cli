@@ -36,7 +36,9 @@ def compute_answers(year, day, solution_file='solution', example=False):
     sys.path.append(os.getcwd())
     solution = import_module(f'{year}.{day}.{solution_file}')
     with open(f'{year}/{day}/{"example_" if example else ""}input.txt', 'r') as f:
-        data = solution.parse_input([line.strip() for line in f.readlines()])
+        data = solution.parse_input([
+            line.replace('\r', '').replace('\n', '') for line in f.readlines()
+        ])
     if not isinstance(data, tuple):
         data = (data,)
     part1_answer = solution.part1(*data)
