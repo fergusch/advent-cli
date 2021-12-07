@@ -1,8 +1,11 @@
+import argparse
 import os
+import re as re
 import requests
 import sys
 
 from enum import Enum
+from gettext import gettext
 from importlib import import_module
 from termcolor import colored as tc_colored
 
@@ -59,3 +62,33 @@ def submit_answer(year, day, level, answer):
         return Status.COMPLETED, None
     else:
         return Status.UNKNOWN, response
+
+
+# class to override default argparse formatter, because I don't think it looks very nice
+# adapted from:
+# https://github.com/python/cpython/blob/bffce2cbb5543bc63a67e33ad599328a12f2b00a/Lib/argparse.py#L154
+class CustomHelpFormatter(argparse.RawTextHelpFormatter):
+
+    class _Section(argparse.HelpFormatter._Section):
+        # make section headings purple
+        def __init__(self, formatter, parent, heading=None):
+            if heading is not None:
+                heading = colored(heading, 'magenta')
+            super().__init__(formatter, parent, heading=heading)
+
+    # add newlines to beginning and end
+    def format_help(self):
+        return f'\n{super().format_help()}\n'
+
+    # make "usage:" purple
+    def _format_usage(self, usage, actions, groups, prefix):
+        return super()._format_usage(
+            usage, actions, groups,
+            colored(gettext('usage: '), 'magenta') if prefix is None else prefix
+        )
+
+    # make arguments yellow
+    def _format_action(self, action):
+        return re.sub(r'(\-[a-zA-Z\-]+(\s)?([a-zA-Z_]+)?)', colored(r'\1', 'yellow'),
+                      re.sub(r'(\s\s[a-zA-Z]+\s\s)', colored(r'\1', 'yellow'),
+                             super()._format_action(action)))

@@ -3,10 +3,11 @@ import argparse
 from . import config
 from .commands import get, stats, private_leaderboard_stats, test, submit
 from ._version import __version__
+from .utils import CustomHelpFormatter
 
 
 def main():
-    parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(formatter_class=CustomHelpFormatter)
     parser.add_argument(
         '-v', '--version',
         action='version',
@@ -17,14 +18,15 @@ def main():
         dest='disable_color',
         action='store_true',
         help='disable coloring terminal output\n'
-             '(set env. var. ADVENT_DISABLE_TERMCOLOR=1 to disable permanently'
+             '(set env. var. ADVENT_DISABLE_TERMCOLOR=1 to disable permanently)'
     )
     command_subparsers = parser.add_subparsers(
         dest='command', description='use advent {subcommand} --help for arguments'
     )
     parser_get = command_subparsers.add_parser(
         'get',
-        help='download prompt and input, generate solution template'
+        help='download prompt and input, generate solution template',
+        formatter_class=CustomHelpFormatter
     )
     parser_get.add_argument(
         'date',
@@ -32,7 +34,8 @@ def main():
     )
     parser_stats = command_subparsers.add_parser(
         'stats',
-        help='show personal stats or private leaderboards'
+        help='show personal stats or private leaderboards',
+        formatter_class=CustomHelpFormatter
     )
     parser_stats.add_argument(
         'year',
@@ -47,7 +50,7 @@ def main():
     parser_test = command_subparsers.add_parser(
         'test',
         help='run solution and output answers without submitting',
-        formatter_class=argparse.RawTextHelpFormatter
+        formatter_class=CustomHelpFormatter
     )
     parser_test.add_argument(
         'date',
@@ -69,7 +72,7 @@ def main():
     parser_submit = command_subparsers.add_parser(
         'submit',
         help='run solution and submit answers',
-        formatter_class=argparse.RawTextHelpFormatter
+        formatter_class=CustomHelpFormatter
     )
     parser_submit.add_argument(
         'date',
