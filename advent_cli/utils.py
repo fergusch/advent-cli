@@ -17,9 +17,9 @@ def colored(text, color):
     else:
         return tc_colored(text, color)
 
-def compute_answers(year, day, example=False):
+def compute_answers(year, day, solution_file='solution', example=False):
     sys.path.append(os.getcwd())
-    solution = import_module(f'{year}.{day}.solution')
+    solution = import_module(f'{year}.{day}.{solution_file}')
     with open(f'{year}/{day}/{"example_" if example else ""}input.txt', 'r') as f:
         data = solution.parse_input([line.strip() for line in f.readlines()])
     if not isinstance(data, tuple):

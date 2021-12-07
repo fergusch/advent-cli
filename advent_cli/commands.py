@@ -124,17 +124,27 @@ def private_leaderboard_stats(year):
         print(colored('You are not a member of any private leaderboards or you have not configured them.', 'red'))
         print(colored('Set the environment variable ADVENT_PRIV_BOARDS to a comma-separated list of private leaderboard IDs.', 'red'))
 
-def test(year, day, example=False):
+def test(year, day, solution_file='solution', example=False):
     if example:
         if os.stat(f'{year}/{day}/example_input.txt').st_size == 0:
             print(colored(f'Example input file empty ({year}/{day}/example_input.txt)', 'red'))
             return
         else:
             print(colored('(Using example input)', 'red'))
-    part1_answer, part2_answer = compute_answers(year, day, example=example)
+    if solution_file != 'solution':
+        print(colored(f'(Using {solution_file}.py)', 'red'))
+    part1_answer, part2_answer = compute_answers(year, day, solution_file=solution_file, example=example)
     if part1_answer is not None:
         print(f'{colored("Part 1:", "cyan")} {part1_answer}')
         if part2_answer is not None:
             print(f'{colored("Part 2:", "yellow")} {part2_answer}')
     else:
         print(colored('No solution implemented', 'red'))
+        return
+        
+    if solution_file != 'solution':
+        part1_answer_orig, part2_answer_orig = compute_answers(year, day, example=example)
+        if part1_answer == part1_answer_orig and part2_answer == part2_answer_orig:
+            print(colored('Output matches solution.py', 'green'))
+        else:
+            print(colored('Output does not match solution.py', 'red'))

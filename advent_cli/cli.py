@@ -21,9 +21,13 @@ def main():
     parser_stats.add_argument('year', help='year to show stats for')
     parser_stats.add_argument('-p', '--private', dest='show_private', action='store_true', help='show private leaderboard(s)')
 
-    parser_test = command_subparsers.add_parser('test', help='run solution and output answers without submitting')
+    parser_test = command_subparsers.add_parser('test', 
+        help='run solution and output answers without submitting',
+        formatter_class=argparse.RawTextHelpFormatter
+    )
     parser_test.add_argument('date', help='the year and day in YYYY/DD format (e.g. "2021/01")')
     parser_test.add_argument('-e', '--example', dest='run_example', action='store_true', help='use example_input.txt for input')
+    parser_test.add_argument('-f', '--solution-file', dest='solution_file', default='solution', help='solution file to run instead of solution.py\n(e.g. "solution2" for solution2.py)')
 
     args = parser.parse_args()
 
@@ -42,4 +46,4 @@ def main():
 
     elif args.command == 'test':
         year, day = args.date.split('/')
-        test(year, day, example=args.run_example)
+        test(year, day, solution_file=args.solution_file, example=args.run_example)
