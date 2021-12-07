@@ -1,7 +1,7 @@
 import argparse
 
 from . import config
-from .commands import get, stats, private_leaderboard_stats, test
+from .commands import get, stats, private_leaderboard_stats, test, submit
 from ._version import __version__
 
 def main():
@@ -29,6 +29,17 @@ def main():
     parser_test.add_argument('-e', '--example', dest='run_example', action='store_true', help='use example_input.txt for input')
     parser_test.add_argument('-f', '--solution-file', dest='solution_file', default='solution', help='solution file to run instead of solution.py\n(e.g. "solution2" for solution2.py)')
 
+    parser_submit = command_subparsers.add_parser('submit', 
+        help='run solution and submit answers',
+        formatter_class=argparse.RawTextHelpFormatter
+    )
+    parser_submit.add_argument('date', help='the year and day in YYYY/DD format (e.g. "2021/01")')
+    parser_submit.add_argument('-f', '--solution-file', dest='solution_file', default='solution', 
+        help='solution file to run instead of solution.py' + \
+            '\n(e.g. "solution2" for solution2.py)' + \
+            '\n*only works if answers not yet submitted*'
+    )
+    
     args = parser.parse_args()
 
     if args.disable_color:
@@ -47,3 +58,7 @@ def main():
     elif args.command == 'test':
         year, day = args.date.split('/')
         test(year, day, solution_file=args.solution_file, example=args.run_example)
+
+    elif args.command == 'submit':
+        year, day = args.date.split('/')
+        submit(year, day, solution_file=args.solution_file)

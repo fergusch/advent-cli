@@ -9,7 +9,7 @@ from markdownify import markdownify
 from tabulate import tabulate
 
 from . import config
-from .utils import colored, compute_answers
+from .utils import colored, compute_answers, submit_answer, Status
 
 def get(year, day):
     try:
@@ -148,3 +148,53 @@ def test(year, day, solution_file='solution', example=False):
             print(colored('Output matches solution.py', 'green'))
         else:
             print(colored('Output does not match solution.py', 'red'))
+
+def submit(year, day, solution_file='solution'):
+    if solution_file != 'solution':
+        print(colored(f'(Using {solution_file}.py)', 'red'))
+    part1_answer, part2_answer = compute_answers(year, day, solution_file=solution_file)
+    
+    status, response = None, None
+    if part2_answer is not None:
+        print('Submitting part 2...')
+        status, response = submit_answer(year, day, 2, part2_answer)
+    elif part1_answer is not None:
+        print('Submitting part 1...')
+        status, response = submit_answer(year, day, 1, part1_answer)
+    else:
+        print(colored('No solution implemented', 'red'))
+        return
+
+    if status == Status.PASS:
+        print(colored('Correct!', 'green'), end=' ')
+        if part2_answer is not None:
+            print(colored('**', 'yellow'))
+            print(f'Day {int(day)} complete!')
+        elif part1_answer is not None:
+            print(colored('*', 'cyan'))
+            r = requests.get(f'https://adventofcode.com/{year}/day/{int(day)}', cookies={'session': config.session_cookie})
+            soup = BeautifulSoup(r.text, 'html.parser')
+            part2_html = soup.find_all('article', class_='day-desc')[1].decode_contents()
+            
+            # remove hyphens from title sections, makes markdown look nicer
+            part1_html = re.sub('--- (.*) ---', r'\1', part2_html)
+
+            # also makes markdown look better
+            part1_html = part1_html.replace('\n\n', '\n')
+
+            with open(f'{year}/{day}/prompt.md', 'w') as f:
+                f.write(markdownify(part1_html))
+            print(f'Appended part 2 prompt to {year}/{day}/prompt.md')
+            
+    elif status == Status.FAIL:
+        print(colored('Incorrect!', 'red'))
+
+    elif status == Status.RATE_LIMIT:
+        print(colored('Rate limited! Please wait before submitting again.', 'yellow'))
+
+    elif status == Status.COMPLETED:
+        print(colored("You've already completed this question.", 'yellow'))
+
+    elif status == Status.UNKNOWN:
+        print(colored('Something went wrong. Please view the output below:', 'red'))
+        print(response)
