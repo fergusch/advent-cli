@@ -8,12 +8,14 @@ from termcolor import colored as tc_colored
 
 from . import config
 
+
 class Status(Enum):
     PASS = 0
     FAIL = 1
     RATE_LIMIT = 2
     COMPLETED = 3
     UNKNOWN = 4
+
 
 def colored(text, color):
     if config.disable_color:
@@ -26,6 +28,7 @@ def colored(text, color):
     else:
         return tc_colored(text, color)
 
+
 def compute_answers(year, day, solution_file='solution', example=False):
     sys.path.append(os.getcwd())
     solution = import_module(f'{year}.{day}.{solution_file}')
@@ -37,9 +40,14 @@ def compute_answers(year, day, solution_file='solution', example=False):
     part2_answer = solution.part2(*data)
     return part1_answer, part2_answer
 
+
 def submit_answer(year, day, level, answer):
     payload = {'level': level, 'answer': answer}
-    r = requests.post(f'https://adventofcode.com/{year}/day/{int(day)}/answer', data=payload, cookies={'session': config.session_cookie})
+    r = requests.post(
+        f'https://adventofcode.com/{year}/day/{int(day)}/answer',
+        data=payload,
+        cookies={'session': config.session_cookie}
+    )
     response = r.text
     if "That's the right answer" in response:
         return Status.PASS, None
