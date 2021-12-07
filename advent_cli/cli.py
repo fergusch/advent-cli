@@ -23,6 +23,7 @@ def main():
 
     parser_test = command_subparsers.add_parser('test', help='run solution and output answers without submitting')
     parser_test.add_argument('date', help='the year and day in YYYY/DD format (e.g. "2021/01")')
+    parser_test.add_argument('-e', '--example', dest='run_example', action='store_true', help='use example_input.txt for input')
 
     args = parser.parse_args()
 
@@ -41,4 +42,4 @@ def main():
 
     elif args.command == 'test':
         year, day = args.date.split('/')
-        test(year, day)
+        test(year, day, example=args.run_example)

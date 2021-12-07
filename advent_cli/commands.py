@@ -124,8 +124,14 @@ def private_leaderboard_stats(year):
         print(colored('You are not a member of any private leaderboards or you have not configured them.', 'red'))
         print(colored('Set the environment variable ADVENT_PRIV_BOARDS to a comma-separated list of private leaderboard IDs.', 'red'))
 
-def test(year, day):
-    part1_answer, part2_answer = compute_answers(year, day)
+def test(year, day, example=False):
+    if example:
+        if os.stat(f'{year}/{day}/example_input.txt').st_size == 0:
+            print(colored(f'Example input file empty ({year}/{day}/example_input.txt)', 'red'))
+            return
+        else:
+            print(colored('(Using example input)', 'red'))
+    part1_answer, part2_answer = compute_answers(year, day, example=example)
     if part1_answer is not None:
         print(f'{colored("Part 1:", "cyan")} {part1_answer}')
         if part2_answer is not None:
