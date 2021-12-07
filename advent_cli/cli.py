@@ -1,6 +1,6 @@
 import argparse
 
-from .commands import get
+from .commands import get, stats
 
 def main():
     parser = argparse.ArgumentParser()
@@ -9,8 +9,14 @@ def main():
     parser_get = command_subparsers.add_parser('get', help='download prompt and input, generate solution template')
     parser_get.add_argument('date', help='the year and day in YYYY/DD format (e.g. "2021/01")')
     
+    parser_stats = command_subparsers.add_parser('stats', help='show personal stats')
+    parser_stats.add_argument('year', help='year to show stats for')
+
     args = parser.parse_args()
     
     if args.command == 'get':
         year, day = args.date.split('/')
         get(year, day)
+
+    elif args.command == 'stats':
+        stats(args.year)
