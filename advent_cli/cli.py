@@ -1,9 +1,15 @@
 import argparse
 
+from . import config
 from .commands import get, stats, private_leaderboard_stats
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument('--disable-color', dest='disable_color', action='store_true', 
+        help='disable coloring terminal output' + \
+            '\n(set env. variable ADVENT_DISABLE_TERMCOLOR=1 to disable permanently)',
+    )
+
     command_subparsers = parser.add_subparsers(dest='command', description='use advent {subcommand} --help for arguments')
     
     parser_get = command_subparsers.add_parser('get', help='download prompt and input, generate solution template')
@@ -14,6 +20,9 @@ def main():
     parser_stats.add_argument('-p', '--private', dest='show_private', action='store_true', help='show private leaderboard(s)')
 
     args = parser.parse_args()
+
+    if args.disable_color:
+        config.disable_color = True
     
     if args.command == 'get':
         year, day = args.date.split('/')

@@ -14,3 +14,8 @@ if 'ADVENT_PRIV_BOARDS' in os.environ:
     private_leaderboards = os.environ['ADVENT_PRIV_BOARDS'].split(',')
 else:
     private_leaderboards = []
+
+if 'ADVENT_DISABLE_TERMCOLOR' in os.environ:
+    disable_color = (os.environ['ADVENT_DISABLE_TERMCOLOR']=='1')
+else:
+    disable_color = False
