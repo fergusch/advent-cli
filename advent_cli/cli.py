@@ -2,9 +2,11 @@ import argparse
 
 from . import config
 from .commands import get, stats, private_leaderboard_stats
+from ._version import __version__
 
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument('-v', '--version', action='version', version=f'%(prog)s {__version__}')
     parser.add_argument('--disable-color', dest='disable_color', action='store_true', 
         help='disable coloring terminal output' + \
             '\n(set env. variable ADVENT_DISABLE_TERMCOLOR=1 to disable permanently)',
