@@ -1,7 +1,7 @@
 import argparse
 
 from . import config
-from .commands import get, stats, private_leaderboard_stats
+from .commands import get, stats, private_leaderboard_stats, test
 from ._version import __version__
 
 def main():
@@ -21,6 +21,9 @@ def main():
     parser_stats.add_argument('year', help='year to show stats for')
     parser_stats.add_argument('-p', '--private', dest='show_private', action='store_true', help='show private leaderboard(s)')
 
+    parser_test = command_subparsers.add_parser('test', help='run solution and output answers without submitting')
+    parser_test.add_argument('date', help='the year and day in YYYY/DD format (e.g. "2021/01")')
+
     args = parser.parse_args()
 
     if args.disable_color:
@@ -35,3 +38,7 @@ def main():
             private_leaderboard_stats(args.year)
         else:
             stats(args.year)
+
+    elif args.command == 'test':
+        year, day = args.date.split('/')
+        test(year, day)

@@ -9,7 +9,7 @@ from markdownify import markdownify
 from tabulate import tabulate
 
 from . import config
-from .utils import colored
+from .utils import colored, compute_answers
 
 def get(year, day):
     try:
@@ -37,8 +37,7 @@ def get(year, day):
         f.write(r.text)
     print(f'Downloaded input to {year}/{day}/input.txt')
 
-    with open(f'{year}/{day}/example_input.txt', 'w') as f:
-        f.write('\n')
+    open(f'{year}/{day}/example_input.txt', 'w').close()
     print(f'Created {year}/{day}/example_input.txt')
 
     with open(f'{year}/{day}/solution.py', 'w') as f:
@@ -124,3 +123,12 @@ def private_leaderboard_stats(year):
     else:
         print(colored('You are not a member of any private leaderboards or you have not configured them.', 'red'))
         print(colored('Set the environment variable ADVENT_PRIV_BOARDS to a comma-separated list of private leaderboard IDs.', 'red'))
+
+def test(year, day):
+    part1_answer, part2_answer = compute_answers(year, day)
+    if part1_answer is not None:
+        print(f'{colored("Part 1:", "cyan")} {part1_answer}')
+        if part2_answer is not None:
+            print(f'{colored("Part 2:", "yellow")} {part2_answer}')
+    else:
+        print(colored('No solution implemented', 'red'))
