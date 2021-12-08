@@ -51,11 +51,15 @@ $ advent stats YYYY
 ```
 This will print out your progress for the year `YYYY` and output the table found on `adventofcode.com/{YYYY}/leaderboard/self` with your time, rank, and score for each day and part.
 
+![](https://user-images.githubusercontent.com/27470183/145123799-bcbce9f6-60d7-4a26-812a-f81167446604.png)
+
 ### Check private leaderboards
 ```
 $ advent stats YYYY --private
 ```
 This will print out each of the private leaderboards given in `ADVENT_PRIV_BOARDS`. Also works with `-p`.
+
+![](https://user-images.githubusercontent.com/27470183/145124469-722cbdd5-9275-4cda-8bdb-c04ed8cfde43.png)
 
 ## Solution structure
 advent-cli expects the following directory structure (example):
