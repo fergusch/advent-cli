@@ -1,7 +1,7 @@
 import argparse
 
+from . import commands
 from . import config
-from .commands import get, stats, private_leaderboard_stats, test, submit
 from ._version import __version__
 from .utils import CustomHelpFormatter
 
@@ -93,18 +93,18 @@ def main():
 
     if args.command == 'get':
         year, day = args.date.split('/')
-        get(year, day)
+        commands.get(year, day)
 
     elif args.command == 'stats':
         if args.show_private:
-            private_leaderboard_stats(args.year)
+            commands.private_leaderboard_stats(args.year)
         else:
-            stats(args.year)
+            commands.stats(args.year)
 
     elif args.command == 'test':
         year, day = args.date.split('/')
-        test(year, day, solution_file=args.solution_file, example=args.run_example)
+        commands.test(year, day, solution_file=args.solution_file, example=args.run_example)
 
     elif args.command == 'submit':
         year, day = args.date.split('/')
-        submit(year, day, solution_file=args.solution_file)
+        commands.submit(year, day, solution_file=args.solution_file)
