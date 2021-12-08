@@ -1,4 +1,4 @@
-# advent-cli
+# 🎄 advent-cli
 
 **advent-cli** is a command-line tool for interacting with [Advent of Code](https://adventofcode.com/), specifically geared toward writing solutions in Python. It can be used to view puzzle prompts, download input, submit solutions, and view personal or private stats and leaderboards.
 
