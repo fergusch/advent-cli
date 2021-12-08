@@ -152,14 +152,27 @@ def private_leaderboard_stats(year):
 
 
 def test(year, day, solution_file='solution', example=False):
+
+    if not os.path.exists(f'{year}/{day}/'):
+        print(colored('Directory does not exist:', 'red'))
+        print(colored(f'  "{os.getcwd()}/{year}/{day}/"', 'red'))
+        return
+
     if example:
         if os.stat(f'{year}/{day}/example_input.txt').st_size == 0:
-            print(colored(f'Example input file empty ({year}/{day}/example_input.txt)', 'red'))
+            print(colored('Example input file is empty:', 'red'))
+            print(colored(f'  {os.getcwd()}/{year}/{day}/example_input.txt', 'red'))
             return
         else:
             print(colored('(Using example input)', 'red'))
+
     if solution_file != 'solution':
+        if not os.path.exists(f'{year}/{day}/{solution_file}.py'):
+            print(colored('Solution file does not exist:', 'red'))
+            print(colored(f'  "{os.getcwd()}/{year}/{day}/{solution_file}.py"', 'red'))
+            return
         print(colored(f'(Using {solution_file}.py)', 'red'))
+
     part1_answer, part2_answer = compute_answers(year, day,
                                                  solution_file=solution_file,
                                                  example=example)
@@ -180,8 +193,19 @@ def test(year, day, solution_file='solution', example=False):
 
 
 def submit(year, day, solution_file='solution'):
+
+    if not os.path.exists(f'{year}/{day}/'):
+        print(colored('Directory does not exist:', 'red'))
+        print(colored(f'  "{os.getcwd()}/{year}/{day}/"', 'red'))
+        return
+
     if solution_file != 'solution':
+        if not os.path.exists(f'{year}/{day}/{solution_file}.py'):
+            print(colored('Solution file does not exist:', 'red'))
+            print(colored(f'  "{os.getcwd()}/{year}/{day}/{solution_file}.py"', 'red'))
+            return
         print(colored(f'(Using {solution_file}.py)', 'red'))
+
     part1_answer, part2_answer = compute_answers(year, day, solution_file=solution_file)
 
     status, response = None, None
