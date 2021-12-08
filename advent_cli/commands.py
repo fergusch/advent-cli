@@ -13,14 +13,24 @@ from .utils import colored, compute_answers, submit_answer, Status
 
 
 def get(year, day):
-    try:
-        os.makedirs(f'{year}/{day}')
-    except FileExistsError:
-        print(colored(f'Folder {year}/{day} already exists.', 'red'))
+    if os.path.exists(f'{year}/{day}/'):
+        print(colored('Directory already exists:', 'red'))
+        print(colored(f'  {os.getcwd()}/{year}/{day}/', 'red'))
         return
 
     r = requests.get(f'https://adventofcode.com/{year}/day/{int(day)}',
                      cookies={'session': config.session_cookie})
+    if r.status_code == 404:
+        if 'before it unlocks!' in r.text:
+            print(colored('This puzzle has not unlocked yet.', 'red'))
+            print(colored(f'It will unlock on Dec {day} {year} at midnight EST (UTC-5).',
+                          'red'))
+            return
+        else:
+            print(colored('The server returned error 404 for url:', 'red'))
+            print(colored(f'  "https://adventofcode.com/{year}/day/{int(day)}/"', 'red'))
+            return
+
     soup = BeautifulSoup(r.text, 'html.parser')
     part1_html = soup.find('article', class_='day-desc').decode_contents()
 
