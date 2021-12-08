@@ -11,7 +11,7 @@ def main():
     parser.add_argument(
         '-v', '--version',
         action='version',
-        version=f'%(prog)s {__version__}'
+        version=f'advent-cli {__version__}'
     )
     parser.add_argument(
         '--disable-color',
