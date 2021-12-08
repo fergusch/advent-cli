@@ -208,13 +208,13 @@ def submit(year, day, solution_file='solution'):
             part2_html = soup.find_all('article', class_='day-desc')[1].decode_contents()
 
             # remove hyphens from title sections, makes markdown look nicer
-            part1_html = re.sub('--- (.*) ---', r'\1', part2_html)
+            part2_html = re.sub('--- (.*) ---', r'\1', part2_html)
 
             # also makes markdown look better
-            part1_html = part1_html.replace('\n\n', '\n')
+            part2_html = part2_html.replace('\n\n', '\n')
 
-            with open(f'{year}/{day}/prompt.md', 'w') as f:
-                f.write(markdownify(part1_html))
+            with open(f'{year}/{day}/prompt.md', 'a') as f:
+                f.write(markdownify(part2_html))
             print(f'Appended part 2 prompt to {year}/{day}/prompt.md')
 
     elif status == Status.FAIL:
