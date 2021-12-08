@@ -98,6 +98,9 @@ When the solution is run, the input will be read from `input.txt` and automatica
 
 If `part2` is left unmodified or otherwise returns `None`, it will be considered unsolved and `part1` will be run and submitted. If both functions are implemented, `part2` will be submitted.
 
+## Changelog
+See [Releases](https://github.com/fergusch/advent-cli/releases).
+
 ## Credits
 This started out as a simple script which was inspired by [Hazel](https://git.bicompact.space/hazel/aoc-2021) and [haskal](https://git.lain.faith/haskal/aoc2020/src/branch/aoc2020/scripts).
 
