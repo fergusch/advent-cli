@@ -3,11 +3,10 @@
 **advent-cli** is a command-line tool for interacting with [Advent of Code](https://adventofcode.com/), specifically geared toward writing solutions in Python. It can be used to view puzzle prompts, download input, submit solutions, and view personal or private stats and leaderboards.
 
 ## Installation
-Clone this repository and simply run:
 ```
-pip install .
+pip install git+https://github.com/fergusch/advent-cli.git@main
 ```
-<small>(PyPI installation coming soon)</small>
+(PyPI installation coming soon)
 
 ## Configuration
 Before you do anything, you'll need to provide advent-cli with a session cookie so it can authenticate as you. To do this, log in to the [Advent of Code website](https://adventofcode.com/) and grab the cookie named `session` from your browser's inspect element tool. Store it in an environment variable on your machine named `ADVENT_SESSION_COOKIE`. A fresh session cookie is good for about a month, after which you'll need to repeat these steps.
