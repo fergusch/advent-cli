@@ -81,8 +81,8 @@ def stats(year):
 
     print('\n         1111111111222222\n1234567890123456789012345')
 
+    today = dt.now(pytz.timezone('America/New_York'))
     for i, stars in enumerate(stars_per_day):
-        today = dt.now(pytz.timezone('America/New_York'))
         if stars == 2:
             print(colored('*', 'yellow'), end='')
         elif stars == 1:
