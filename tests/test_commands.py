@@ -21,23 +21,19 @@ def test_get(mock_get, mock_open):
     commands.get('2099', '99')
     mock_open.assert_has_calls([
         call('2099/99/prompt.md', 'w'),
-        call().__enter__(),
-        call().__enter__().write('\nDay 1: Test\n-----------\n\n\nThis is a ' +
-                                 'test puzzle.\n\n\n'),
-        call().__exit__(None, None, None),
+        call().__enter__().write(
+            '\nDay 1: Test\n-----------\n\n\nThis is a test puzzle.\n\n\n'),
         call('2099/99/input.txt', 'w'),
-        call().__enter__(),
         call().__enter__().write('0,1,2,3,4'),
-        call().__exit__(None, None, None),
         call('2099/99/example_input.txt', 'w'),
         call().close(),
         call('2099/99/solution.py', 'w'),
-        call().__enter__(),
-        call().__enter__().write('## advent of code 2099\n## https://adventofcode.com/2099\n' +
-                                 '## day 99\n\ndef parse_input(lines):\n    pass\n\n' +
-                                 'def part1(data):\n    pass\n\ndef part2(data):\n    pass'),
-        call().__exit__(None, None, None)
-    ])
+        call().__enter__().write(
+            '## advent of code 2099\n## https://adventofcode.com/2099\n' +
+            '## day 99\n\ndef parse_input(lines):\n    pass\n\n' +
+            'def part1(data):\n    pass\n\ndef part2(data):\n    pass'
+        ),
+    ], any_order=True)
 
 
 @patch('builtins.open', new_callable=mock_open())
