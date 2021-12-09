@@ -5,9 +5,10 @@ from advent_cli import commands
 
 # ---- test get() ----
 
+@patch('os.mkdir')
 @patch('builtins.open', new_callable=mock_open())
 @patch('requests.get')
-def test_get(mock_get, mock_open):
+def test_get(mock_get, mock_open, mock_mkdir):
     mock_get.side_effect = [
         MagicMock(text='''
             <meta charset="utf-8">
