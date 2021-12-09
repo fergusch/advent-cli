@@ -3,6 +3,8 @@ from mock import patch, call, mock_open, MagicMock
 from advent_cli import commands
 
 
+# ---- test get() ----
+
 @patch('builtins.open', new_callable=mock_open())
 @patch('requests.get')
 def test_get(mock_get, mock_open):
@@ -36,3 +38,30 @@ def test_get(mock_get, mock_open):
                                  'def part1(data):\n    pass\n\ndef part2(data):\n    pass'),
         call().__exit__(None, None, None)
     ])
+
+
+@patch('builtins.open', new_callable=mock_open())
+@patch('os.path.exists')
+def test_get_path_exists(mock_exists, mock_open):
+    mock_exists.side_effect = lambda x: {'2099/99/': True}[x]
+    commands.get('2099', '99')
+    mock_open.assert_not_called()
+
+
+@patch('builtins.open', new_callable=mock_open())
+@patch('requests.get')
+def test_get_puzzle_locked(mock_get, mock_open):
+    mock_get.return_value.status_code = 404
+    mock_get.return_value.text = 'Please don\'t repeatedly request ' + \
+                                 'this endpoint before it unlocks!'
+    commands.get('2099', '99')
+    mock_open.assert_not_called()
+
+
+@patch('builtins.open', new_callable=mock_open())
+@patch('requests.get')
+def test_get_404(mock_get, mock_open):
+    mock_get.return_value.status_code = 404
+    mock_get.return_value.text = '404 Not Found'
+    commands.get('2099', '99')
+    mock_open.assert_not_called()
