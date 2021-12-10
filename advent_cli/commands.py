@@ -31,7 +31,7 @@ def get(year, day):
             print(colored(f'  "https://adventofcode.com/{year}/day/{int(day)}/"', 'red'))
             return
 
-    os.mkdir(f'{year}/{day}/')
+    os.makedirs(f'{year}/{day}/')
 
     soup = BeautifulSoup(r.text, 'html.parser')
     part1_html = soup.find('article', class_='day-desc').decode_contents()

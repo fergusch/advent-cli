@@ -3,7 +3,7 @@ from mock import patch, call, mock_open, MagicMock
 from advent_cli import commands
 
 
-@patch('os.mkdir')
+@patch('os.makedirs')
 @patch('builtins.open', new_callable=mock_open())
 @patch('requests.get')
 def test_get(mock_get, mock_open, mock_mkdir):
@@ -35,6 +35,7 @@ def test_get(mock_get, mock_open, mock_mkdir):
              'def part1(data):\n    pass\n\ndef part2(data):\n    pass')
         )
     ], any_order=True)
+    mock_mkdir.assert_called_once_with('2099/99/')
 
 
 @patch('builtins.open', new_callable=mock_open())
