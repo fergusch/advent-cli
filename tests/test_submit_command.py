@@ -1,11 +1,10 @@
-from mock import patch, call, mock_open, MagicMock
-from _mock import mock_get_config
+from mock import patch, call, mock_open
+from _fixtures import env_patch_fixture
 
 from advent_cli import commands
 from advent_cli.utils import Status
 
 
-@patch('advent_cli.config.get_config', mock_get_config)
 @patch('advent_cli.commands.compute_answers', return_value=(None, None))
 @patch('os.path.exists', return_value=True)
 def test_submit_no_solution(mock_exists, mock_compute, capsys):
@@ -14,7 +13,6 @@ def test_submit_no_solution(mock_exists, mock_compute, capsys):
     assert captured_stdout == 'No solution implemented\n'
 
 
-@patch('advent_cli.config.get_config', mock_get_config)
 @patch('builtins.open', new_callable=mock_open())
 @patch('requests.get')
 @patch('advent_cli.commands.submit_answer', return_value=(Status.PASS, None))
@@ -43,7 +41,6 @@ def test_submit_part1(mock_exists, mock_compute, mock_submit, mock_get,
     ], any_order=True)
 
 
-@patch('advent_cli.config.get_config', mock_get_config)
 @patch('advent_cli.commands.submit_answer', return_value=(Status.PASS, None))
 @patch('advent_cli.commands.compute_answers', return_value=(5, 10))
 @patch('os.path.exists', return_value=True)
@@ -55,7 +52,6 @@ def test_submit_part2(mock_exists, mock_compute, mock_submit, capsys):
                                'Day 99 complete!\n')
 
 
-@patch('advent_cli.config.get_config', mock_get_config)
 @patch('advent_cli.commands.submit_answer', return_value=(Status.PASS, None))
 @patch('advent_cli.commands.compute_answers', return_value=(5, 10))
 @patch('os.path.exists', return_value=True)
@@ -68,7 +64,6 @@ def test_submit_altsoln(mock_exists, mock_compute, mock_submit, capsys):
                                'Day 99 complete!\n')
 
 
-@patch('advent_cli.config.get_config', mock_get_config)
 @patch('builtins.open', new_callable=mock_open())
 @patch('os.getcwd', return_value='/fake/path')
 @patch('os.path.exists', side_effect=[True, False])
@@ -80,7 +75,6 @@ def test_submit_altsoln_nofile(mock_exists, mock_getcwd, mock_open, capsys):
     mock_open.assert_not_called()
 
 
-@patch('advent_cli.config.get_config', mock_get_config)
 @patch('builtins.open', new_callable=mock_open())
 @patch('os.getcwd', return_value='/fake/path')
 @patch('os.path.exists', return_value=False)

@@ -1,12 +1,11 @@
 from freezegun import freeze_time
 from mock import patch, MagicMock
-from _mock import mock_get_config
+from _fixtures import env_patch_fixture
 
 from advent_cli import commands
 
 
 @freeze_time('2099-12-03 05:00:00')
-@patch('advent_cli.config.get_config', mock_get_config)
 @patch('requests.get')
 def test_personal_stats(mock_get, capsys):
     mock_get.return_value.text = (
@@ -37,7 +36,6 @@ def test_personal_stats(mock_get, capsys):
 
 
 @freeze_time('2099-12-03 05:00:00')
-@patch('advent_cli.config.get_config', mock_get_config)
 @patch('requests.get')
 def test_private_stats(mock_get, capsys):
     mock_get.side_effect = [

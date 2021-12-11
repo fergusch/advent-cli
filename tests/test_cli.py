@@ -1,4 +1,5 @@
 from mock import patch
+from _fixtures import env_patch_fixture
 
 from advent_cli import cli
 

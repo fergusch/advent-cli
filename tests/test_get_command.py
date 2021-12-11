@@ -1,4 +1,5 @@
 from mock import patch, call, mock_open, MagicMock
+from _fixtures import env_patch_fixture
 
 from advent_cli import commands
 
