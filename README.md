@@ -1,5 +1,10 @@
 # 🎄 advent-cli
 
+![](https://img.shields.io/github/v/release/fergusch/advent-cli?color=brightgreen&include_prereleases)
+![](https://img.shields.io/github/v/tag/fergusch/advent-cli?label=latest)
+![](https://img.shields.io/github/workflow/status/fergusch/advent-cli/build?logo=github)
+![](https://img.shields.io/github/workflow/status/fergusch/advent-cli/unit%20tests?label=unit%20tests&logo=github)
+
 **advent-cli** is a command-line tool for interacting with [Advent of Code](https://adventofcode.com/), specifically geared toward writing solutions in Python. It can be used to view puzzle prompts, download input, submit solutions, and view personal or private stats and leaderboards.
 
 ![](https://user-images.githubusercontent.com/27470183/145635955-5ea316a2-d028-4954-a144-d87846ed05d9.gif)
