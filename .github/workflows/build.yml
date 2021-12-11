@@ -1,4 +1,4 @@
-name: build
+name: test build
 
 on: [push]
 
@@ -57,33 +57,3 @@ jobs:
     - name: Test output
       run: |
         advent -h
-  build-py310-upload:
-    name: build and upload
-    needs: [build-older-python, build-py310]
-    runs-on: ubuntu-latest
-    env:
-      ADVENT_SESSION_COOKIE: foo
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: "3.10"
-    - name: Install build dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install build --user
-    - name: Build tarball and wheel
-      run: |
-        python -m build --sdist --wheel --outdir dist/ .
-    - name: Install from built wheel
-      run: |
-        pip install --find-links=dist/ advent-cli
-    - name: Test output
-      run: |
-        advent -h
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2.3.0
-      with:
-        name: advent-cli
-        path: dist/*
