@@ -13,9 +13,8 @@
 
 ## Installation
 ```
-pip install git+https://github.com/fergusch/advent-cli.git@main
+pip install advent-cli
 ```
-(PyPI installation coming soon)
 
 ## Configuration
 Before you do anything, you'll need to provide advent-cli with a session cookie so it can authenticate as you. To do this, log in to the [Advent of Code website](https://adventofcode.com/) and grab the cookie named `session` from your browser's inspect element tool. Store it in an environment variable on your machine named `ADVENT_SESSION_COOKIE`. A fresh session cookie is good for about a month, after which you'll need to repeat these steps.
