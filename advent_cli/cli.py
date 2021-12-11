@@ -1,7 +1,6 @@
 import argparse
 
 from . import commands
-from . import config
 from ._version import __version__
 from .utils import CustomHelpFormatter
 
@@ -12,13 +11,6 @@ def main():
         '-v', '--version',
         action='version',
         version=f'advent-cli {__version__}'
-    )
-    parser.add_argument(
-        '--disable-color',
-        dest='disable_color',
-        action='store_true',
-        help='disable coloring terminal output\n'
-             '(set env. var. ADVENT_DISABLE_TERMCOLOR=1 to disable permanently)'
     )
     command_subparsers = parser.add_subparsers(
         dest='command', description='use advent {subcommand} --help for arguments'
@@ -87,9 +79,6 @@ def main():
              '*only works if answers not yet submitted*'
     )
     args = parser.parse_args()
-
-    if args.disable_color:
-        config.disable_color = True
 
     if args.command == 'get':
         year, day = args.date.split('/')

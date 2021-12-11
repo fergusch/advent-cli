@@ -18,8 +18,9 @@ def get(year, day):
         print(colored(f'  {os.getcwd()}/{year}/{day}/', 'red'))
         return
 
+    conf = config.get_config()
     r = requests.get(f'https://adventofcode.com/{year}/day/{int(day)}',
-                     cookies={'session': config.session_cookie})
+                     cookies={'session': conf['session_cookie']})
     if r.status_code == 404:
         if 'before it unlocks!' in r.text:
             print(colored('This puzzle has not unlocked yet.', 'red'))
@@ -47,7 +48,7 @@ def get(year, day):
     print(f'Downloaded prompt to {year}/{day}/prompt.md')
 
     r = requests.get(f'https://adventofcode.com/{year}/day/{int(day)}/input',
-                     cookies={'session': config.session_cookie})
+                     cookies={'session': conf['session_cookie']})
     with open(f'{year}/{day}/input.txt', 'w') as f:
         f.write(r.text)
     print(f'Downloaded input to {year}/{day}/input.txt')
@@ -66,8 +67,9 @@ def get(year, day):
 
 
 def stats(year):
+    conf = config.get_config()
     r = requests.get(f'https://adventofcode.com/{year}/leaderboard/self',
-                     cookies={'session': config.session_cookie})
+                     cookies={'session': conf['session_cookie']})
     soup = BeautifulSoup(r.text, 'html.parser')
 
     table = soup.select('article pre')[0].text
@@ -105,18 +107,20 @@ def stats(year):
             for x in ['----\nTime', '(Part 2)\nRank', '----\nScore']]
     ]), '\n')
 
-    if config.private_leaderboards:
-        print(colored(f'You are a member of {len(config.private_leaderboards)} '
+    if conf['private_leaderboards']:
+        num_private_leaderboards = len(conf['private_leaderboards'])
+        print(colored(f'You are a member of {num_private_leaderboards} '
                       f'private leaderboard(s).', 'grey'))
         print(colored(f'Use "advent stats {year} --private" to see them.\n', 'grey'))
 
 
 def private_leaderboard_stats(year):
-    if config.private_leaderboards:
-        for board_id in config.private_leaderboards:
+    conf = config.get_config()
+    if conf['private_leaderboards']:
+        for board_id in conf['private_leaderboards']:
             r = requests.get(
                 f'https://adventofcode.com/{year}/leaderboard/private/view/{board_id}',
-                cookies={'session': config.session_cookie}
+                cookies={'session': conf['session_cookie']}
             )
             soup = BeautifulSoup(r.text, 'html.parser')
 
@@ -238,8 +242,9 @@ def submit(year, day, solution_file='solution'):
             print(f'Day {int(day)} complete!')
         elif part1_answer is not None:
             print(colored('*', 'cyan'))
+            conf = config.get_config()
             r = requests.get(f'https://adventofcode.com/{year}/day/{int(day)}',
-                             cookies={'session': config.session_cookie})
+                             cookies={'session': conf['session_cookie']})
             soup = BeautifulSoup(r.text, 'html.parser')
             part2_html = soup.find_all('article', class_='day-desc')[1].decode_contents()
 

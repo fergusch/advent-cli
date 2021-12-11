@@ -1,18 +1,17 @@
 from mock import patch, mock_open, MagicMock
+from _mock import mock_get_config
 
 from advent_cli import utils
 
 
-@patch('advent_cli.config.disable_color', True)
-@patch('advent_cli.utils.tc_colored')
-def test_utils_colored_disabled(mock_tc_colored):
+@patch('advent_cli.config.get_config', mock_get_config)
+def test_utils_colored_disabled():
     assert utils.colored('*', 'yellow') == '*'
     assert utils.colored('*', 'cyan') == '/'
     assert utils.colored('*', 'grey') == '.'
     assert utils.colored('text', 'red') == 'text'
 
 
-@patch('advent_cli.config.disable_color', False)
 @patch('advent_cli.utils.tc_colored')
 def test_utils_colored_enabled(mock_tc_colored):
     _ = utils.colored('text', 'red')

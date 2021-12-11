@@ -21,7 +21,7 @@ class Status(Enum):
 
 
 def colored(text, color):
-    if config.disable_color:
+    if config.get_config()['disable_color']:
         if text == '*':
             if color == 'cyan':
                 return '/'
@@ -51,7 +51,7 @@ def submit_answer(year, day, level, answer):
     r = requests.post(
         f'https://adventofcode.com/{year}/day/{int(day)}/answer',
         data=payload,
-        cookies={'session': config.session_cookie}
+        cookies={'session': config.get_config()['session_cookie']}
     )
     response = r.text
     if "That's the right answer" in response:
