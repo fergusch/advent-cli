@@ -53,13 +53,13 @@ This will run the solution file in the directory `YYYY/DD` and automatically att
 
 ### Check personal stats
 ```
-$ advent stats YYYY
+$ advent stats [YYYY]
 ```
-This will print out your progress for the year `YYYY` and output the table found on `adventofcode.com/{YYYY}/leaderboard/self` with your time, rank, and score for each day and part.
+This will print out your progress for the year `YYYY` and output the table found on `adventofcode.com/{YYYY}/leaderboard/self` with your time, rank, and score for each day and part. If year is not specified, defaults to the current year.
 
 ### Check private leaderboards
 ```
-$ advent stats YYYY --private
+$ advent stats [YYYY] --private
 ```
 This will print out each of the private leaderboards given in `ADVENT_PRIV_BOARDS`. Also works with `-p`.
 

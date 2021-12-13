@@ -1,4 +1,5 @@
 import argparse
+from datetime import datetime as dt
 
 from . import commands
 from ._version import __version__
@@ -31,7 +32,9 @@ def main():
     )
     parser_stats.add_argument(
         'year',
-        help='year to show stats for'
+        nargs='?',
+        default=dt.now().year,
+        help='year to show stats for, defaults to current year'
     )
     parser_stats.add_argument(
         '-p', '--private',
