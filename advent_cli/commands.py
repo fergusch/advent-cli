@@ -138,6 +138,8 @@ def private_leaderboard_stats(year):
 
             for row in rows:
                 position = row.find('span', class_='privboard-position').text
+                if len(position) == 2:
+                    position = " " + position
                 stars = row.find_all('span', class_=re.compile('privboard-star-*'))
                 name = row.find('span', class_='privboard-name').text
                 name_link = row.select('.privboard-name a')[0].attrs['href'] \
