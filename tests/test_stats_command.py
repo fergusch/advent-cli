@@ -72,3 +72,35 @@ def test_private_stats(mock_get, capsys):
         ' 2) 92 *..                       example2 \n\n'
         '(* 2 stars) (/ 1 star) (. 0 stars)\n\n'
     )
+
+
+@freeze_time('2099-12-03 05:00:00')
+@patch('requests.get')
+def test_private_stats(mock_get, capsys):
+    mock_get.side_effect = [
+        MagicMock(text=(
+            '<div class="user">Your Name<span class="star-count">99*</span></div>'
+            '<article><p>'
+            'This is your private leaderboard for Advent of Code 2099.'
+            '</p><div class="privboard-row"></div>'
+            '<div class="privboard-row">'
+            '<span class="privboard-position"> 1)</span>99'
+            '<span class="privboard-star-both">*</span>'
+            '<span class="privboard-star-firstonly">*</span>'
+            '<span class="privboard-star-unlocked">*</span>' +
+            '<span class="privboard-star-locked">*</span>'*22 +
+            '<span class="privboard-name">'
+            '<a href="https://github.com/example">example</a>'
+            '</span>'
+            '</div></article>'
+        )),
+    ]
+    commands.private_leaderboard_stats('2099')
+    captured_stdout = capsys.readouterr().out
+    assert captured_stdout == (
+        '\nYour Name\'s private leaderboard (1111111)\n\n'
+        '                1111111111222222\n'
+        '       1234567890123456789012345\n'
+        ' 1) 99 */.                       example (https://github.com/example)\n\n'
+        '(* 2 stars) (/ 1 star) (. 0 stars)\n\n'
+    )

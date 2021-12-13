@@ -124,8 +124,11 @@ def private_leaderboard_stats(year):
             )
             soup = BeautifulSoup(r.text, 'html.parser')
 
-            board_owner = re.findall(r'private leaderboard of (.*) for',
-                                     soup.select('article p')[0].text)[0]
+            intro_text = soup.select('article p')[0].text
+            board_owner = soup.find('div', class_='user').contents[0].strip() \
+                if 'This is your' in intro_text \
+                else re.findall(r'private leaderboard of (.*) for', intro_text)[0]
+
             rows = soup.find_all('div', class_='privboard-row')[1:]
 
             top_score_len = len(rows[0].find_all(text=True, recursive=False)[0].strip())
