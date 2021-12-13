@@ -1,8 +1,8 @@
 # 🎄 advent-cli
 
-![](https://img.shields.io/github/v/release/fergusch/advent-cli?color=brightgreen)
-![](https://img.shields.io/pypi/v/advent-cli)
-![](https://img.shields.io/github/v/tag/fergusch/advent-cli?label=latest)
+![](https://img.shields.io/pypi/v/advent-cli?color=blue&logo=pypi&logoColor=white)
+![](https://img.shields.io/github/v/release/fergusch/advent-cli?color=brightgreen&logo=github)
+![](https://img.shields.io/github/v/tag/fergusch/advent-cli?label=latest&logo=github)
 ![](https://img.shields.io/github/workflow/status/fergusch/advent-cli/build?logo=github)
 ![](https://img.shields.io/github/workflow/status/fergusch/advent-cli/unit%20tests?label=unit%20tests&logo=github)
 
