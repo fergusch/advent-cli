@@ -17,6 +17,11 @@ def get_config():
     else:
         config['disable_color'] = False
 
+    if 'ADVENT_MARKDOWN_EM' in os.environ:
+        config['md_em'] = os.environ['ADVENT_MARKDOWN_EM']
+    else:
+        config['md_em'] = 'default'
+
     if 'ADVENT_SESSION_COOKIE' in os.environ:
         config['session_cookie'] = os.environ['ADVENT_SESSION_COOKIE']
     else:

@@ -62,3 +62,24 @@ def test_submit_answer_completed(mock_post):
 def test_submit_answer_unknown_response(mock_post):
     mock_post.return_value.text = 'Error'
     assert utils.submit_answer('2099', '99', '1', '5') == (utils.Status.UNKNOWN, 'Error')
+
+
+def test_custom_markdown():
+    html = ('<pre><code>this is <em>emphasized</em> text</code></pre>'
+            'this is <em>not</em> in a code block')
+    with patch.dict(os.environ, {'ADVENT_MARKDOWN_EM': 'default'}):
+        assert utils.custom_markdownify(html) == ('\n```\nthis is *emphasized* text'
+                                                  '\n```\nthis is *not* in a code block')
+    with patch.dict(os.environ, {'ADVENT_MARKDOWN_EM': 'none'}):
+        assert utils.custom_markdownify(html) == ('\n```\nthis is emphasized text'
+                                                  '\n```\nthis is *not* in a code block')
+    with patch.dict(os.environ, {'ADVENT_MARKDOWN_EM': 'ib'}):
+        assert utils.custom_markdownify(html) == ('\n<pre><code>this is '
+                                                  '<i><b>emphasized</b></i> '
+                                                  'text</code></pre>\n'
+                                                  'this is *not* in a code block')
+    with patch.dict(os.environ, {'ADVENT_MARKDOWN_EM': 'mark'}):
+        assert utils.custom_markdownify(html) == ('\n<pre><code>this is '
+                                                  '<mark>emphasized</mark> '
+                                                  'text</code></pre>\n'
+                                                  'this is *not* in a code block')

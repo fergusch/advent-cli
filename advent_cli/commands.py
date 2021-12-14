@@ -5,11 +5,10 @@ import requests
 
 from bs4 import BeautifulSoup
 from datetime import datetime as dt
-from markdownify import markdownify
 from tabulate import tabulate
 
 from . import config
-from .utils import colored, compute_answers, submit_answer, Status
+from .utils import colored, compute_answers, submit_answer, Status, custom_markdownify
 
 
 def get(year, day):
@@ -44,7 +43,7 @@ def get(year, day):
     part1_html = part1_html.replace('\n\n', '\n')
 
     with open(f'{year}/{day}/prompt.md', 'w') as f:
-        f.write(markdownify(part1_html))
+        f.write(custom_markdownify(part1_html))
     print(f'Downloaded prompt to {year}/{day}/prompt.md')
 
     r = requests.get(f'https://adventofcode.com/{year}/day/{int(day)}/input',
@@ -260,7 +259,7 @@ def submit(year, day, solution_file='solution'):
             part2_html = part2_html.replace('\n\n', '\n')
 
             with open(f'{year}/{day}/prompt.md', 'a') as f:
-                f.write(markdownify(part2_html))
+                f.write(custom_markdownify(part2_html))
             print(f'Appended part 2 prompt to {year}/{day}/prompt.md')
 
     elif status == Status.FAIL:

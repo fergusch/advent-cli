@@ -1,4 +1,5 @@
 import argparse
+import markdownify
 import os
 import re as re
 import requests
@@ -94,3 +95,29 @@ class CustomHelpFormatter(argparse.RawTextHelpFormatter):
         return re.sub(r'(\-[a-zA-Z\-]+(\s)?([a-zA-Z_]+)?)', colored(r'\1', 'yellow'),
                       re.sub(r'(\s\s[a-zA-Z]+\s\s)', colored(r'\1', 'yellow'),
                              super()._format_action(action)))
+
+
+class CustomMarkdownConverter(markdownify.MarkdownConverter):
+
+    def __init__(self, md_em, **options):
+        self.md_em = md_em
+        super().__init__(**options)
+
+    def convert_em(self, el, text, convert_as_inline):
+        if el.parent.name == 'code' and el.parent.parent.name == 'pre':
+            if self.md_em == 'ib':
+                return f'<i><b>{text}</b></i>'
+            elif self.md_em == 'mark':
+                return f'<mark>{text}</mark>'
+            elif self.md_em == 'none' or self.md_em == '':
+                return text
+        return super().convert_em(el, text, convert_as_inline)
+
+    def convert_pre(self, el, text, convert_as_inline):
+        if self.md_em in ['ib', 'mark']:
+            return f'\n<pre><code>{text}</code></pre>\n'
+        return super().convert_pre(el, text, convert_as_inline)
+
+
+def custom_markdownify(html, **options):
+    return CustomMarkdownConverter(config.get_config()['md_em'], **options).convert(html)

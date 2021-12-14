@@ -100,9 +100,19 @@ The following environment variables can be set to change the default config:
 
 | Variable                   | Function |
 | -------------------------- | -------- |
-| `ADVENT_SESSION_COOKIE`    | Advent of Code session cookie for authentication. |
-| `ADVENT_PRIV_BOARDS`       | Comma-separated list of private leaderboard IDs. (optional) |
-| `ADVENT_DISABLE_TERMCOLOR` | Set to `1` to permanently disable coloring terminal output. (optional) |
+| `ADVENT_SESSION_COOKIE`    | Advent of Code session cookie for authentication. **(required)**|
+| `ADVENT_PRIV_BOARDS`       | Comma-separated list of private leaderboard IDs. |
+| `ADVENT_DISABLE_TERMCOLOR` | Set to `1` to permanently disable coloring terminal output. |
+| `ADVENT_MARKDOWN_EM`       | Method for converting `<em>` tags inside code blocks. See below for context and options. |
+
+### `ADVENT_MARKDOWN_EM` options
+By default, `<em>emphasized text</em>` inside code blocks will be converted to markdown format, i.e. `*emphasized text*`, but with AoC puzzle prompts this can often mess up the formatting. This option can be set to a couple of different things to change this behavior:
+| Value | Behavior |
+| ----- | -------- |
+| `ib`  | Preserve the `<pre><code>` tags for code blocks rather than convert them to markdown format and render `<em>` tags as `<i><b>`. This can make rendered markdown more readable, although it makes the plaintext less readable if you aren't rendering the markdown. |
+| `mark` | Same as above, but replace `<em>` tags with [`<mark>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark). This maks the emphasis even more clear than `<i><b>`, but not all markdown renderers support it. |
+| `none` | Ignore `<em>` tags and do nothing with their contents. This will preserve plaintext formatting but also hinder the usefulness of the emphasis. |
+| `default` | Default behavior (convert `<em>` to `*`). |
 
 ## Changelog
 See [Releases](https://github.com/fergusch/advent-cli/releases).
