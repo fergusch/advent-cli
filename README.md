@@ -15,16 +15,10 @@
 pip install advent-cli
 ```
 
-## Configuration
+## Setup
 Before you do anything, you'll need to provide advent-cli with a session cookie so it can authenticate as you. To do this, log in to the [Advent of Code website](https://adventofcode.com/) and grab the cookie named `session` from your browser's inspect element tool. Store it in an environment variable on your machine named `ADVENT_SESSION_COOKIE`. A fresh session cookie is good for about a month, after which you'll need to repeat these steps.
 
-Full list of configuration environment variables:
-
-| Variable                   | Function |
-| -------------------------- | -------- |
-| `ADVENT_SESSION_COOKIE`    | Advent of Code session cookie for authentication. |
-| `ADVENT_PRIV_BOARDS`       | Comma-separated list of private leaderboard IDs. (optional) |
-| `ADVENT_DISABLE_TERMCOLOR` | Set to `1` to permanently disable coloring terminal output. (optional) |
+A full list of configuration options can be found [here](#configuration).
 
 ## Usage
 
@@ -100,6 +94,15 @@ def part2(data):
 When the solution is run, the input will be read from `input.txt` and automatically passed to `parse_input` as `lines`, an array of strings where each string is a line from the input with newline characters removed. You should implement `parse_input` to return your parsed input or inputs, which will then be passed to `part1` and `part2`. If `parse_input` returns a tuple, `part1` and `part2` will be expecting multiple parameters that map to those returned values. The parameter names can be changed to your liking. The only constraint is that `part1` and `part2` must have the same number of parameters.
 
 If `part2` is left unmodified or otherwise returns `None`, it will be considered unsolved and `part1` will be run and submitted. If both functions are implemented, `part2` will be submitted.
+
+## Configuration
+The following environment variables can be set to change the default config:
+
+| Variable                   | Function |
+| -------------------------- | -------- |
+| `ADVENT_SESSION_COOKIE`    | Advent of Code session cookie for authentication. |
+| `ADVENT_PRIV_BOARDS`       | Comma-separated list of private leaderboard IDs. (optional) |
+| `ADVENT_DISABLE_TERMCOLOR` | Set to `1` to permanently disable coloring terminal output. (optional) |
 
 ## Changelog
 See [Releases](https://github.com/fergusch/advent-cli/releases).
