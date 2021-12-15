@@ -57,6 +57,14 @@ $ advent stats [YYYY] --private
 ```
 This will print out each of the private leaderboards given in `ADVENT_PRIV_BOARDS`. Also works with `-p`.
 
+### Countdown to puzzle unlock
+```
+$ advent countdown YYYY/DD
+```
+Displays a countdown until the given puzzle unlocks. Can be chained with `get` to auto-download files once the countdown finishes.
+
+![](https://user-images.githubusercontent.com/27470183/146280614-7cf9a15f-0bb3-4067-9624-74c5a2e67cbb.gif)
+
 ## Solution structure
 advent-cli expects the following directory structure (example):
 ```

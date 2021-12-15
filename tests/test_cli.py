@@ -53,3 +53,12 @@ def test_cli_submit(mock_argparse, mock_command_submit):
     mock_argparse.return_value.parse_args.return_value.solution_file = 'solution'
     cli.main()
     mock_command_submit.assert_called_once_with('2099', '99', solution_file='solution')
+
+
+@patch('advent_cli.cli.commands.countdown')
+@patch('argparse.ArgumentParser')
+def test_cli_countdown(mock_argparse, mock_command_submit):
+    mock_argparse.return_value.parse_args.return_value.date = '2099/99'
+    mock_argparse.return_value.parse_args.return_value.command = 'countdown'
+    cli.main()
+    mock_command_submit.assert_called_once_with('2099', '99')

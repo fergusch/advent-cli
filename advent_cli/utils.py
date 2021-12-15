@@ -4,10 +4,13 @@ import os
 import re as re
 import requests
 import sys
+import pytz
 
+from datetime import datetime as dt
 from enum import Enum
 from gettext import gettext
 from importlib import import_module
+from math import ceil
 from termcolor import colored as tc_colored
 
 from . import config
@@ -65,6 +68,15 @@ def submit_answer(year, day, level, answer):
         return Status.COMPLETED, None
     else:
         return Status.UNKNOWN, response
+
+
+def get_time_until_unlock(year, day):
+    est = pytz.timezone('EST')
+    unlock_time = est.localize(dt(int(year), 12, int(day)))
+    delta = ceil((unlock_time - dt.now().astimezone(est)).total_seconds())
+    minutes, seconds = divmod(delta, 60)
+    hours, minutes = divmod(minutes, 60)
+    return hours, minutes, seconds
 
 
 # class to override default argparse formatter, because I don't think it looks very nice

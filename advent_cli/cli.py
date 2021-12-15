@@ -81,6 +81,15 @@ def main():
              '(e.g. "solution2" for solution2.py)\n'
              '*only works if answers not yet submitted*'
     )
+    parser_countdown = command_subparsers.add_parser(
+        'countdown',
+        help='display countdown to puzzle unlock',
+        formatter_class=CustomHelpFormatter
+    )
+    parser_countdown.add_argument(
+        'date',
+        help='the year and day in YYYY/DD format (e.g. "2021/01")'
+    )
     args = parser.parse_args()
 
     if args.command == 'get':
@@ -100,3 +109,7 @@ def main():
     elif args.command == 'submit':
         year, day = args.date.split('/')
         commands.submit(year, day, solution_file=args.solution_file)
+
+    elif args.command == 'countdown':
+        year, day = args.date.split('/')
+        commands.countdown(year, day)

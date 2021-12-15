@@ -1,14 +1,23 @@
+import curses
 import os
 import pytz
 import re
 import requests
+import time
 
 from bs4 import BeautifulSoup
 from datetime import datetime as dt
 from tabulate import tabulate
 
 from . import config
-from .utils import colored, compute_answers, submit_answer, Status, custom_markdownify
+from .utils import (
+    colored,
+    compute_answers,
+    custom_markdownify,
+    get_time_until_unlock,
+    submit_answer,
+    Status
+)
 
 
 def get(year, day):
@@ -25,6 +34,8 @@ def get(year, day):
             print(colored('This puzzle has not unlocked yet.', 'red'))
             print(colored(f'It will unlock on Dec {day} {year} at midnight EST (UTC-5).',
                           'red'))
+            print(colored(f'Use "advent countdown {year}/{day}" to view a live countdown.',
+                          'grey'))
             return
         else:
             print(colored('The server returned error 404 for url:', 'red'))
@@ -274,3 +285,49 @@ def submit(year, day, solution_file='solution'):
     elif status == Status.UNKNOWN:
         print(colored('Something went wrong. Please view the output below:', 'red'))
         print(response)
+
+
+def countdown(year, day):
+
+    now = dt.now().astimezone(pytz.timezone('EST'))
+
+    if now.year != int(year):
+        print(colored(f'Date must be from the current year ({now.year}).', 'red'))
+        return
+
+    if now > dt(int(year), 12, int(day)).astimezone(pytz.timezone('EST')):
+        print(colored('That puzzle has already been unlocked.', 'red'))
+        return
+
+    def curses_countdown(stdscr):  # pragma: no cover
+        curses.cbreak()
+        curses.halfdelay(2)
+        curses.use_default_colors()
+        if config.get_config()['disable_color']:
+            for i in range(1, 4):
+                curses.init_pair(i, -1, -1)
+        else:
+            curses.init_pair(1, curses.COLOR_MAGENTA, -1)
+            curses.init_pair(2, curses.COLOR_YELLOW, -1)
+            curses.init_pair(3, curses.COLOR_RED, -1)
+        hours, minutes, seconds = get_time_until_unlock(year, day)
+        while any((hours, minutes, seconds)):
+            stdscr.erase()
+            stdscr.addstr('advent-cli', curses.color_pair(1))
+            stdscr.addstr(' countdown\n\n')
+            stdscr.addstr(f'  {year} day {int(day)} will unlock in:\n', curses.color_pair(2))
+            stdscr.addstr(f'  {hours} hours, {minutes} minutes, {seconds} seconds\n\n')
+            stdscr.addstr('(press Q or CTRL+C to exit)', curses.color_pair(3))
+            stdscr.refresh()
+            stdscr.nodelay(1)
+            key = stdscr.getch()
+            if key == 27 or key == 113:
+                raise KeyboardInterrupt
+            hours, minutes, seconds = get_time_until_unlock(year, day)
+
+    try:  # pragma: no cover
+        curses.wrapper(curses_countdown)
+        print(colored('Countdown finished', 'green'))
+        time.sleep(1)  # wait an extra second, just in case the timing is slightly early
+    except KeyboardInterrupt:  # pragma: no cover
+        print(colored('Countdown cancelled', 'red'))
