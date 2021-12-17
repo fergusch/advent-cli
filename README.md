@@ -115,6 +115,7 @@ The following environment variables can be set to change the default config:
 
 ### `ADVENT_MARKDOWN_EM` options
 By default, `<em>emphasized text</em>` inside code blocks will be converted to markdown format, i.e. `*emphasized text*`, but with AoC puzzle prompts this can often mess up the formatting. This option can be set to a couple of different things to change this behavior:
+
 | Value | Behavior |
 | ----- | -------- |
 | `ib`  | Preserve the `<pre><code>` tags for code blocks rather than convert them to markdown format and render `<em>` tags as `<i><b>`. This can make rendered markdown more readable, although it makes the plaintext less readable if you aren't rendering the markdown. |
