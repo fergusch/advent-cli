@@ -116,7 +116,7 @@ class CustomMarkdownConverter(markdownify.MarkdownConverter):
         super().__init__(**options)
 
     def convert_em(self, el, text, convert_as_inline):
-        if el.parent.name == 'code' and el.parent.parent.name == 'pre':
+        if el.parent.name == 'code':
             if self.md_em == 'ib':
                 return f'<i><b>{text}</b></i>'
             elif self.md_em == 'mark':
@@ -125,9 +125,14 @@ class CustomMarkdownConverter(markdownify.MarkdownConverter):
                 return text
         return super().convert_em(el, text, convert_as_inline)
 
+    def convert_code(self, el, text, convert_as_inline):
+        if self.md_em in ['ib', 'mark']:
+            return f'<code>{text}</code>'
+        return super().convert_code(el, text, convert_as_inline)
+
     def convert_pre(self, el, text, convert_as_inline):
         if self.md_em in ['ib', 'mark']:
-            return f'\n<pre><code>{text}</code></pre>\n'
+            return f'\n<pre>{text}</pre>\n'
         return super().convert_pre(el, text, convert_as_inline)
 
 
