@@ -21,7 +21,8 @@ class Status(Enum):
     FAIL = 1
     RATE_LIMIT = 2
     COMPLETED = 3
-    UNKNOWN = 4
+    NOT_LOGGED_IN = 4
+    UNKNOWN = 5
 
 
 def colored(text, color):
@@ -66,6 +67,8 @@ def submit_answer(year, day, level, answer):
         return Status.RATE_LIMIT, None
     elif 'Did you already complete it?' in response:
         return Status.COMPLETED, None
+    elif '[Log In]' in response:
+        return Status.NOT_LOGGED_IN, None
     else:
         return Status.UNKNOWN, response
 

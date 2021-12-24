@@ -41,6 +41,9 @@ def get(year, day):
             print(colored('The server returned error 404 for url:', 'red'))
             print(colored(f'  "https://adventofcode.com/{year}/day/{int(day)}/"', 'red'))
             return
+    elif '[Log In]' in r.text:
+        print(colored('Session cookie is invalid or expired.', 'red'))
+        return
 
     os.makedirs(f'{year}/{day}/')
 
@@ -80,6 +83,10 @@ def stats(year):
     conf = config.get_config()
     r = requests.get(f'https://adventofcode.com/{year}/leaderboard/self',
                      cookies={'session': conf['session_cookie']})
+    if '[Log In]' in r.text:
+        print(colored('Session cookie is invalid or expired.', 'red'))
+        return
+
     soup = BeautifulSoup(r.text, 'html.parser')
 
     table = soup.select('article pre')[0].text
@@ -132,6 +139,10 @@ def private_leaderboard_stats(year):
                 f'https://adventofcode.com/{year}/leaderboard/private/view/{board_id}',
                 cookies={'session': conf['session_cookie']}
             )
+            if '[Log In]' in r.text:
+                print(colored('Session cookie is invalid or expired.', 'red'))
+                return
+
             soup = BeautifulSoup(r.text, 'html.parser')
 
             intro_text = soup.select('article p')[0].text
@@ -281,6 +292,9 @@ def submit(year, day, solution_file='solution'):
 
     elif status == Status.COMPLETED:
         print(colored("You've already completed this question.", 'yellow'))
+
+    elif status == Status.NOT_LOGGED_IN:
+        print(colored('Session cookie is invalid or expired.', 'red'))
 
     elif status == Status.UNKNOWN:
         print(colored('Something went wrong. Please view the output below:', 'red'))
