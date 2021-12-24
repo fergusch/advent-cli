@@ -3,6 +3,7 @@ import os
 import pytz
 import re
 import requests
+import sys
 import time
 
 from bs4 import BeautifulSoup
@@ -345,3 +346,4 @@ def countdown(year, day):
         time.sleep(1)  # wait an extra second, just in case the timing is slightly early
     except KeyboardInterrupt:  # pragma: no cover
         print(colored('Countdown cancelled', 'red'))
+        sys.exit(1)
