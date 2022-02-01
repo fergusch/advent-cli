@@ -81,6 +81,11 @@ def get(year, day):
 
 
 def stats(year):
+    today = dt.today()
+    if today.year <= int(year) and today.month < 12:
+        print(colored(f'Defaulting to previous year ({today.year - 1}).', 'red'))
+        year = str(today.year - 1)
+
     conf = config.get_config()
     r = requests.get(f'https://adventofcode.com/{year}/leaderboard/self',
                      cookies={'session': conf['session_cookie']})
@@ -133,6 +138,11 @@ def stats(year):
 
 
 def private_leaderboard_stats(year):
+    today = dt.today()
+    if today.year <= int(year) and today.month < 12:
+        print(colored(f'Defaulting to previous year ({today.year - 1}).', 'red'))
+        year = str(today.year - 1)
+
     conf = config.get_config()
     if conf['private_leaderboards']:
         for board_id in conf['private_leaderboards']:
