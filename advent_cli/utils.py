@@ -11,6 +11,9 @@ from enum import Enum
 from gettext import gettext
 from importlib import import_module
 from math import ceil
+from itertools import tee
+from copy import copy
+from collections.abc import Generator
 from termcolor import colored as tc_colored
 
 from . import config
@@ -44,10 +47,15 @@ def compute_answers(year, day, solution_file='solution', example=False):
         data = solution.parse_input([
             line.replace('\r', '').replace('\n', '') for line in f.readlines()
         ])
+    if isinstance(data, Generator):
+        data1, data2 = tee(data)
+    else:
+        data1, data2 = copy(data), copy(data)
     if not isinstance(data, tuple):
-        data = (data,)
-    part1_answer = solution.part1(*data)
-    part2_answer = solution.part2(*data)
+        data1 = (data1,)
+        data2 = (data2,)
+    part1_answer = solution.part1(*data1)
+    part2_answer = solution.part2(*data2)
     return part1_answer, part2_answer
 
 

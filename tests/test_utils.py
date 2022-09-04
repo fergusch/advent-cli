@@ -33,6 +33,13 @@ def test_compute_answers(mock_import_module):
     assert part1_answer == 36
     assert part2_answer == 8
 
+    # test generator
+    mock_import_module.return_value.parse_input.side_effect = \
+        lambda l: ([int(x) for x in line.split(',')] for line in l)
+    part1_answer, part2_answer = utils.compute_answers('2099', '92')
+    assert part1_answer == 36
+    assert part2_answer == 8
+
 
 @patch('requests.post')
 def test_submit_answer_pass(mock_post):
