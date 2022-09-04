@@ -13,7 +13,7 @@ from importlib import import_module
 from math import ceil
 from itertools import tee
 from copy import copy
-from types import GeneratorType
+from collections.abc import Generator
 from termcolor import colored as tc_colored
 
 from . import config
@@ -47,7 +47,7 @@ def compute_answers(year, day, solution_file='solution', example=False):
         data = solution.parse_input([
             line.replace('\r', '').replace('\n', '') for line in f.readlines()
         ])
-    if isinstance(data, GeneratorType):
+    if isinstance(data, Generator):
         data1, data2 = tee(data)
     else:
         data1, data2 = copy(data), copy(data)
