@@ -11,8 +11,14 @@
 ![](https://user-images.githubusercontent.com/27470183/145635955-5ea316a2-d028-4954-a144-d87846ed05d9.gif)
 
 ## Installation
+Install from [PyPI](https://pypi.org/project/advent-cli/):
 ```
 pip install advent-cli
+```
+
+Or grab the latest version from [GitHub](https://github.com/fergusch/advent-cli):
+```
+pip install git+https://github.com/fergusch/advent-cli.git@develop
 ```
 
 ## Setup
@@ -125,6 +131,19 @@ By default, `<em>emphasized text</em>` inside code blocks will be converted to m
 
 ## Changelog
 See [Releases](https://github.com/fergusch/advent-cli/releases).
+
+## Contributing
+Feel free to open a [pull request](https://github.com/fergusch/advent-cli/pulls) or use the [issue tracker](https://github.com/fergusch/advent-cli/issues) on GitHub.
+
+For local development, clone this repository and install with:
+```
+pip install -e .[test]
+```
+
+To run unit tests:
+```
+python -m pytest
+```
 
 ## Credits
 This started out as a simple script which was inspired by [Hazel](https://git.bicompact.space/hazel/aoc-2021) and [haskal](https://git.lain.faith/haskal/aoc2020/src/branch/aoc2020/scripts).
